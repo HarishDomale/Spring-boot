@@ -36,7 +36,8 @@ public class Benificiary extends BaseEntity{
 	private String blood;
 	
 	private float weight;
-	@NotEmpty(message="please provide gender")
+	
+
 	private String gender;
 	
 	@Column(name="users_id",unique = true)

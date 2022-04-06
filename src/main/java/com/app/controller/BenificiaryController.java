@@ -60,13 +60,14 @@ public class BenificiaryController {
 	updateBenificiary.setBlood(benificiary.getBlood());
 	updateBenificiary.setWeight(benificiary.getWeight());
 	updateBenificiary.setGender(benificiary.getGender());
+	updateBenificiary.setUsersId(benificiary.getUsersId());
 	
 	benificiaryRepository.save(updateBenificiary);
 	return ResponseEntity.ok(updateBenificiary);
 	}
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity<Benificiary> deleteBeneficiary(@PathVariable long id){
+	public ResponseEntity<HttpStatus> deleteBeneficiary(@PathVariable long id){
 		Benificiary benificiary= benificiaryRepository.findById(id)
 				.orElseThrow(()->new ResourceNotFoundException("Benificiary not exist with id "+id));
 		benificiaryRepository.delete(benificiary);
