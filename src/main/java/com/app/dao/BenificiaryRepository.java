@@ -6,4 +6,5 @@ import com.app.pojos.Benificiary;
 
 public interface BenificiaryRepository extends JpaRepository<Benificiary, Long>{
 
+
 }

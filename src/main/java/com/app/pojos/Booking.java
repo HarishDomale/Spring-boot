@@ -25,7 +25,7 @@ public class Booking extends BaseEntity{
 	private String time;
 	private String vaccineName;
 	private String hospitalName;
-	private String doctorName;
+	
 	
 	
 	

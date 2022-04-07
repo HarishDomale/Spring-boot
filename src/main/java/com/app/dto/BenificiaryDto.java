@@ -1,24 +1,14 @@
-package com.app.pojos;
+package com.app.dto;
 
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Entity
-@Table(name="benificiary")
-public class Benificiary extends BaseEntity{
-	
+public class BenificiaryDto {
+
 	@NotEmpty(message="please provide first name")
 	private String firstName;
 	@NotEmpty(message="please provide middle name")
@@ -41,12 +31,5 @@ public class Benificiary extends BaseEntity{
 
 	private String gender;
 	
-	@ManyToOne
-	@JoinColumn(name="user_id")
-	private User user;
-//	@Column(name="users_id",unique = true)
-//	private long usersId;
-	
-	
-	
+	private long userId;
 }

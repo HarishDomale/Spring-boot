@@ -1,29 +1,13 @@
-package com.app.pojos;
+package com.app.dto;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Entity
-@Table(name="hospital")
-public class Hospitals extends BaseEntity{
-	
-	
+@Data
+public class HospitalDto {
+
 	@Column(name="hospital_name",nullable = false )//nullable=not null
 	@NotEmpty(message="please provide Hospital Name")
 	private String hospitalName;
@@ -47,7 +31,5 @@ public class Hospitals extends BaseEntity{
 	@NotEmpty(message="please provide Address")
 	private String address;
 	
-	@OneToOne
-	@JoinColumn(name="user_id")
-	private User user;
+	private long userID;
 }

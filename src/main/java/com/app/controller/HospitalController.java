@@ -1,5 +1,6 @@
 package com.app.controller;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,9 +14,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.app.dao.HospitalRepository;
+import com.app.dao.UserRepository;
+import com.app.dto.HospitalDto;
 import com.app.exception.ResourceNotFoundException;
 import com.app.pojos.Hospitals;
+import com.app.pojos.User;
 
 @CrossOrigin("*")
 @RestController
@@ -23,6 +28,9 @@ import com.app.pojos.Hospitals;
 @PreAuthorize("hasRole('ADMIN')")
 public class HospitalController {
 
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Autowired
 	private HospitalRepository hospitalRepository;
 	
@@ -35,9 +43,23 @@ public class HospitalController {
 	
 //	Add new hospital Rest API
 	@PostMapping
-	public Hospitals createHospital(@RequestBody Hospitals hospital) 
+	public Hospitals createHospital(@RequestBody HospitalDto hospital) 
 	{
-		return hospitalRepository.save(hospital);
+		System.out.println("hospital "+hospital.getUserID());
+		
+		User u=userRepository.findById(hospital.getUserID())
+				.orElseThrow(()->new RuntimeException());
+		
+		u.getRoles();
+		Hospitals h=new Hospitals(
+				hospital.getHospitalName(),
+				hospital.getUserName(),
+				hospital.getEmail(),
+				hospital.getPhone(),
+				hospital.getAddress(),
+				hospital.getWebsite(),u
+				);
+		return hospitalRepository.save(h);
 	}
 		
 //	Get hospital by ID Rest API

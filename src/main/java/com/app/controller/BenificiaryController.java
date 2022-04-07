@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dao.BenificiaryRepository;
+import com.app.dao.UserRepository;
+import com.app.dto.BenificiaryDto;
 import com.app.exception.ResourceNotFoundException;
 import com.app.pojos.Benificiary;
+import com.app.pojos.User;
 
 @CrossOrigin("*")
 @RestController
@@ -26,6 +28,9 @@ import com.app.pojos.Benificiary;
 //@PreAuthorize("hasRole('ADMIN')")
 public class BenificiaryController {
 
+	@Autowired
+	private UserRepository userRepository;
+	
 	@Autowired
 	private BenificiaryRepository benificiaryRepository;
 	
@@ -35,8 +40,28 @@ public class BenificiaryController {
 	}
 	
 	@PostMapping
-	public Benificiary createBenificiary(@RequestBody Benificiary benificiary) {
-		return benificiaryRepository.save(benificiary);
+	public Benificiary createBenificiary(@RequestBody BenificiaryDto benificiary) {
+		System.out.println("benificiary "+benificiary.getUserId());
+		User u=userRepository.findById(benificiary.getUserId())
+				.orElseThrow(()-> new RuntimeException());
+		
+				
+				u.getRoles();
+		Benificiary benif=new Benificiary(
+				benificiary.getFirstName(),
+				benificiary.getMiddleName(),
+				benificiary.getLastName(),
+				benificiary.getMotherName(),
+				benificiary.getDob(),
+				benificiary.getAddress(),
+				benificiary.getMobNo(),
+				benificiary.getBlood(),
+				benificiary.getWeight(),
+				benificiary.getGender(),u
+				);
+		
+		return benificiaryRepository.save(benif);
+		
 	}
 	
 	@GetMapping("{id}")
@@ -60,7 +85,7 @@ public class BenificiaryController {
 	updateBenificiary.setBlood(benificiary.getBlood());
 	updateBenificiary.setWeight(benificiary.getWeight());
 	updateBenificiary.setGender(benificiary.getGender());
-	updateBenificiary.setUsersId(benificiary.getUsersId());
+	
 	
 	benificiaryRepository.save(updateBenificiary);
 	return ResponseEntity.ok(updateBenificiary);
@@ -72,5 +97,10 @@ public class BenificiaryController {
 				.orElseThrow(()->new ResourceNotFoundException("Benificiary not exist with id "+id));
 		benificiaryRepository.delete(benificiary);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/count")
+	public long getCount() {
+		return benificiaryRepository.count();
 	}
 }
