@@ -45,9 +45,9 @@ public class HospitalController {
 	@PostMapping
 	public Hospitals createHospital(@RequestBody HospitalDto hospital) 
 	{
-		System.out.println("hospital "+hospital.getUserID());
+		System.out.println("hospital "+hospital.getUserId());
 		
-		User u=userRepository.findById(hospital.getUserID())
+		User u=userRepository.findById(hospital.getUserId())
 				.orElseThrow(()->new RuntimeException());
 		
 		u.getRoles();

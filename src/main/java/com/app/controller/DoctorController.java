@@ -23,7 +23,7 @@ import com.app.pojos.Doctor;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/api/doctors")
-@PreAuthorize("hasRole('ADMIN')")
+//@PreAuthorize("hasRole('ADMIN')")
 public class DoctorController {
 
 	@Autowired
