@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +40,7 @@ public class BenificiaryController {
 		return benificiaryRepository.findAll();
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PostMapping
 	public Benificiary createBenificiary(@RequestBody BenificiaryDto benificiary) {
 		System.out.println("benificiary "+benificiary.getUserId());
@@ -71,6 +73,7 @@ public class BenificiaryController {
 		return ResponseEntity.ok(benificiary);
 	}
 	
+	@PreAuthorize("hasRole('USER')")
 	@PutMapping("{id}")
 	public ResponseEntity<Benificiary> updateBenificiary(@PathVariable long id,@RequestBody Benificiary benificiary){
 	Benificiary updateBenificiary = benificiaryRepository.findById(id)

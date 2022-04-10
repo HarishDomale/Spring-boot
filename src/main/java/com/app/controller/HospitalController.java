@@ -25,7 +25,7 @@ import com.app.pojos.User;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/hospital")
-@PreAuthorize("hasRole('ADMIN')")
+
 public class HospitalController {
 
 	@Autowired
@@ -42,6 +42,7 @@ public class HospitalController {
 	}
 	
 //	Add new hospital Rest API
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public Hospitals createHospital(@RequestBody HospitalDto hospital) 
 	{
@@ -56,8 +57,8 @@ public class HospitalController {
 				hospital.getUserName(),
 				hospital.getEmail(),
 				hospital.getPhone(),
-				hospital.getAddress(),
-				hospital.getWebsite(),u
+				hospital.getWebsite(),
+				hospital.getAddress(),u
 				);
 		return hospitalRepository.save(h);
 	}

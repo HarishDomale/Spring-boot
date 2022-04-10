@@ -34,6 +34,7 @@ public class DoctorController {
 		return doctorRepository.findAll();
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping
 	public Doctor createDoctor(@RequestBody Doctor doctor) {
 		return doctorRepository.save(doctor);
@@ -46,6 +47,7 @@ public class DoctorController {
 		return ResponseEntity.ok(doctor);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("{id}")
 	public ResponseEntity<Doctor> updateDoctor(@PathVariable long id, @RequestBody Doctor doctorDetails){
 		Doctor updateDoctor=doctorRepository.findById(id)
@@ -60,6 +62,7 @@ public class DoctorController {
 		return ResponseEntity.ok(updateDoctor);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("{id}")
 	public ResponseEntity<HttpStatus> deleteDoctor(@PathVariable long id){
 		Doctor doctor=doctorRepository.findById(id)
